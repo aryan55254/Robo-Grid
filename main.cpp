@@ -2,6 +2,23 @@
 #include <string>
 #include <vector>
 
+class robo
+{
+    int x;
+    int y;
+
+public:
+    robo(int start_x, int start_y) : x(start_x), y(start_y) {};
+    int get_x()
+    {
+        return x;
+    };
+    int get_y()
+    {
+        return y;
+    };
+};
+
 class Grid
 {
     int width;
@@ -17,6 +34,15 @@ public:
             data[i].resize(width, '.');
         }
     };
+    void place_robo(robo &robot)
+    {
+        int x = robot.get_x();
+        int y = robot.get_y();
+        if (y >= 0 && y < height && x >= 0 && x < width)
+        {
+            data[y][x] = 'R';
+        }
+    };
     void display()
     {
         for (int i = 0; i < height; i++)
@@ -30,17 +56,11 @@ public:
     }
 };
 
-class robo
-{
-    int x;
-    int y;
-
-public:
-    robo(int start_x, int start_y) : x(start_x), y(start_y) {};
-};
 int main()
 {
     Grid grido1(10, 10);
+    robo robbie(2, 4);
+    grido1.place_robo(robbie);
     grido1.display();
     return 0;
 }
