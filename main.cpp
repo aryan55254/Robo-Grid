@@ -12,11 +12,11 @@ public:
     robo(int start_x, int start_y) : x(start_x), y(start_y) {};
     int get_x()
     {
-        return x - 1;
+        return x;
     };
     int get_y()
     {
-        return y - 1;
+        return y;
     };
 };
 // grid class is to define the height and width of the grid and has vector of char vector to make grid also provides public functions to display grid and place robot
@@ -40,7 +40,7 @@ public:
     {
         int x = robot.get_x();
         int y = robot.get_y();
-        if (y >= 0 && y <= height && x >= 0 && x <= width)
+        if (y >= 0 && y < height && x >= 0 && x < width)
         {
             data[y][x] = 'R';
         }
@@ -59,11 +59,34 @@ public:
     }
 };
 
+class Simulator
+{
+
+    Grid grid;
+    std::vector<robo> robots;
+
+public:
+    Simulator(int grid_width, int grid_height) : grid(grid_width, grid_height)
+    {
+        robo r1(0, 0);
+        robo r2(5, 5);
+
+        robots.push_back(r1);
+        robots.push_back(r2);
+    }
+    void run()
+    {
+        for (int i = 0; i < robots.size(); i++)
+        {
+            grid.place_robot(robots[i]);
+        }
+        grid.display();
+    };
+};
+
 int main()
 {
-    Grid grido1(10, 10);
-    robo robbie(2, 4);
-    grido1.place_robot(robbie);
-    grido1.display();
+    Simulator sim(10, 10);
+    sim.run();
     return 0;
 }
