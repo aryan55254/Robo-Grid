@@ -59,26 +59,38 @@ public:
     }
 };
 
+class ScoutRobot : public robo
+{
+public:
+    ScoutRobot(int start_x, int start_y) : robo(start_x, start_y) {
+                                           };
+};
+
 class Simulator
 {
 
     Grid grid;
-    std::vector<robo> robots;
+    std::vector<robo *> robots;
 
 public:
     Simulator(int grid_width, int grid_height) : grid(grid_width, grid_height)
     {
-        robo r1(0, 0);
-        robo r2(5, 5);
 
-        robots.push_back(r1);
-        robots.push_back(r2);
+        robots.push_back(new ScoutRobot(0, 0));
+        robots.push_back(new ScoutRobot(5, 5));
     }
+    ~Simulator()
+    {
+        for (robo *r : robots)
+        {
+            delete r;
+        }
+    };
     void run()
     {
         for (int i = 0; i < robots.size(); i++)
         {
-            grid.place_robot(robots[i]);
+            grid.place_robot(*robots[i]);
         }
         grid.display();
     };
